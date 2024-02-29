@@ -1,0 +1,13 @@
+{
+    "database":{
+        "host":"localhost",
+        "user":"root",
+        "password":"root"
+    },
+    "snowflake":{
+        "EPOCH":1420070400000,
+        "SERVER":100,
+        "NODE_ID_BITS": 10,
+        "SEQUENCE_BITS": 12
+    }
+}
