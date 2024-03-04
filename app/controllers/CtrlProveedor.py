@@ -13,11 +13,8 @@ class CtrlProveedor(CtrlMain):
 
     def insert(self):
         self.connect.start()
-        sql = "INSERT INTO proveedores (id, name, RFC, legalName, legalAddress, active) VALUES (%s, %s, %s,%s,%s,%s)"
         val = (self.proveedor.id, self.proveedor.name,self.proveedor.RFC,self.proveedor.legalName,self.proveedor.legalAddress,self.proveedor.active)
-        self.connect.cursor.execute(sql, val)
-        self.connect.connect.commit()
-        self.connect.cursor.close()
+        self.connect.insert("proveedores",val)
         return self.proveedor
 
     # def update():
