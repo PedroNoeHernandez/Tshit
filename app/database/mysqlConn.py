@@ -25,25 +25,64 @@ class mysqlConn:
         try:
             self.cursor.execute(sql, values)
             self.connect.commit()
-            return "Successfully inserted"
-        except (MySQLdb.Error, MySQLdb.Warning) as e:
-            return e
-        finally:
             self.cursor.close()
+            return {"code":200,"msg":"Successfully inserted"}
+        except (mysql.connector.Error) as e:
+            return {"code":500,"msg":e.msg}
+    
+### UPDATE
+    def update(self,table:str,id:str,values:dict):
+        sql = f"UPDATE {table} SET "
+        sqlSets = []
+        for key in values:
+            if(type(values[key])is int):
+                sqlSets.append( f"{key} = {values[key]}")
+            else:
+                sqlSets.append( f"{key} = '{values[key]}'")
+        sql =sql + ", ".join(sqlSets)
+        sql = sql+ f" WHERE id = '{id}'"
+        try:
+            self.cursor.execute(sql)
+            self.connect.commit()
+            self.cursor.close()
+            return {"code":200,"msg":"Updated Successfully"}
+        except (mysql.connector.Error) as e:
+            return {"code":309,"msg":e.msg}
+
 
 ### DELETE
-    def delete(tabla:str, id:str):
+    def delete(self,tabla:str, id:str):
         sql = f"DELETE FROM {tabla} WHERE id ='{id}'"
         try:
             self.cursor.execute(sql)
             self.connect.commit()
-        except (MySQLdb.Error, MySQLdb.Warning) as e:
-            return e
-        finally:
             self.cursor.close()
+            return {"code":200,"msg":"Successfully deleted"}
+        except (mysql.connector.Error) as e:
+            return {"code":309,"msg":e.msg}
 
 
 ### GET ALL
+    def getAll(self,tabla:str):
+        sql = f"SELECT * FROM {tabla}"
+        try:
+            self.cursor.execute(sql)
+            myresult = self.cursor.fetchall()
+            self.cursor.close()
+            return {"code":200,"msg":myresult}
+        except (mysql.connector.Error) as e:
+            return {"code":309,"msg":e.msg}
+
+### GET
+    def get(self,tabla:str, id:str):
+        sql = f"SELECT * FROM {tabla} WHERE id ='{id}'"
+        try:
+            self.cursor.execute(sql)
+            myresult = self.cursor.fetchall()
+            self.cursor.close()
+            return {"code":200,"msg":myresult}
+        except (mysql.connector.Error) as e:
+            return {"code":309,"msg":e.msg}
 
 ### SEARCH
 

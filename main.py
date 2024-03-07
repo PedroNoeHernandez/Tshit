@@ -32,6 +32,9 @@ def productos():
             {"id":9,"name":"Pear - Asian","price":1,"category":"n/a","stock":true,"size":"S"},
             {"id":10,"name":"Onions Granulated","price":99,"category":"Military/Government/Technical","stock":false,"size":"XL"}]'''
 
-
+#BORRAR PROVEEDORES
+@app.route("/v1/proveedor/<id>",methods=['DELETE'])
+def deleteProveedor():
+    return "hello"
 
     
