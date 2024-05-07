@@ -86,4 +86,22 @@ class mysqlConn:
 
 ### SEARCH
 
-    
+    def search(self,tabla:str, values:dict, search:str):
+        sql = f"SELECT * FROM {tabla} WHERE "
+        sqlSets = []
+        for key in values:
+            if(type(values[key])is int):
+                sqlSets.append( f"{key} = {values[key]}")
+            else:
+                sqlSets.append( f"{key} = '{values[key]}'")
+        if(search == "AND"):
+            sql =sql + "AND  ".join(sqlSets)
+        if(search == "OR"):
+            sql =sql + "OR  ".join(sqlSets)
+        try:
+            self.cursor.execute(sql)
+            myresult = self.cursor.fetchall()
+            self.cursor.close()
+            return {"code":200,"msg":myresult}
+        except (mysql.connector.Error) as e:
+            return {"code":309,"msg":e.msg}
